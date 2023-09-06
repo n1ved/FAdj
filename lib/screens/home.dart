@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:process_run/process_run.dart';
 
@@ -11,6 +13,24 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _tctlTemp = TextEditingController();
   int _tctlTempVal = 90;
+
+  var sensor_tctl;
+  Timer? timer;
+
+  Future<String> getTemp() async {
+    var shell = Shell(workingDirectory: '/', runInShell: true);
+    var result = "0.0";
+    await shell
+        .run("cat sys/class/thermal/thermal_zone*/temp")
+        .then((value) => result = value.outText.toString());
+    return result;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DataText(headline: "Clock Speed", value: "4.5GHz"),
-                    DataText(headline: "Utilization", value: "80%"),
-                    DataText(
-                        headline: "Temperature",
-                        value: _tctlTempVal.toString()),
+                    DataText(headline: "Clock Speed", value: "WIP"),
+                    DataText(headline: "Utilization", value: "WIP"),
+                    DataText(headline: "Temperature", value: "WIP"),
                   ],
                 ),
               ),
@@ -74,21 +92,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class DataText extends StatelessWidget {
+class DataText extends StatefulWidget {
   DataText({super.key, required this.headline, required this.value});
   String headline;
   String value;
+
+  @override
+  State<DataText> createState() => _DataTextState();
+}
+
+class _DataTextState extends State<DataText> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          headline,
+          widget.headline,
           style: Theme.of(context).textTheme.displaySmall,
         ),
         Text(
-          value,
+          widget.value,
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ],
