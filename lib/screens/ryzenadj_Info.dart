@@ -45,7 +45,7 @@ class _RyzenAdjInfoState extends State<RyzenAdjInfo> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           setState(() {
             getInfo();
@@ -53,7 +53,8 @@ class _RyzenAdjInfoState extends State<RyzenAdjInfo> {
         },
         tooltip: "Refresh",
         enableFeedback: true,
-        child: const Icon(Icons.refresh),
+        label: const Text("Refresh"),
+        icon: const Icon(Icons.refresh),
       ),
     );
   }
