@@ -13,9 +13,7 @@ class _RyzenAdjInfoState extends State<RyzenAdjInfo> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      getInfo();
-    });
+    getInfo();
   }
 
   Future<void> getInfo() async {
@@ -23,6 +21,7 @@ class _RyzenAdjInfoState extends State<RyzenAdjInfo> {
     await shell
         .run("ryzenadj -i")
         .then((value) => ryzenAdjInfo = value.outText);
+    setState(() {});
   }
 
   @override

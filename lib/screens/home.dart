@@ -22,11 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
   var acpi_temp;
   Timer? timer;
 
-  void getAcpi() {
+  void getAcpi() async {
     var shell = Shell(verbose: false);
-    shell.run('acpi -t').then((value) => acpi_temp = value.outText);
-    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      shell.run('acpi -t').then((value) => acpi_temp = value.outText);
+    await shell.run('acpi -t').then((value) => acpi_temp = value.outText);
+    setState(() {});
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      await shell.run('acpi -t').then((value) => acpi_temp = value.outText);
       setState(() {});
     });
   }
