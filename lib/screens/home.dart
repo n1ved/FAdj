@@ -15,10 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _stapmLimit = TextEditingController();
   final TextEditingController _fastLimit = TextEditingController();
   final TextEditingController _slowLimit = TextEditingController();
-  int _tctlTempVal = 90;
-  int _stapmLimitVal = 45000;
-  int _fastLimitVal = 45000;
-  int _slowLimitVal = 45000;
 
   var sensor_tctl;
   Timer? timer;
@@ -74,34 +70,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     ControllerInputBox(
                       inputController: _tctlTemp,
-                      onChanged: () {
-                        _tctlTempVal = int.parse(_tctlTemp.value.toString());
-                      },
+                      id: 'tctl',
                       inputIcon: Icons.thermostat,
                       labelText: "Temperature Limit",
                     ),
                     ControllerInputBox(
                       inputController: _stapmLimit,
-                      onChanged: () {
-                        _stapmLimitVal =
-                            int.parse(_stapmLimit.value.toString());
-                      },
+                      id: 'stapm',
                       inputIcon: Icons.computer,
                       labelText: "CPU TDP",
                     ),
                     ControllerInputBox(
                       inputController: _fastLimit,
-                      onChanged: () {
-                        _fastLimitVal = int.parse(_fastLimit.value.toString());
-                      },
+                      id: 'fast',
                       inputIcon: Icons.computer,
                       labelText: "CPU FAST TDP",
                     ),
                     ControllerInputBox(
                       inputController: _slowLimit,
-                      onChanged: () {
-                        _slowLimitVal = int.parse(_slowLimit.value.toString());
-                      },
+                      id: 'slow',
                       inputIcon: Icons.computer,
                       labelText: "CPU SLOW TDP",
                     ),
@@ -116,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () async {
           var shell = Shell();
           await shell.run(
-              "ryzenadj --tctl-temp=${_tctlTempVal.toString()} --stapm-limit=${_stapmLimitVal.toString()} --fast-limit=${_fastLimitVal.toString()} --slow-limit=${_slowLimitVal.toString()}");
+              "ryzenadj --tctl-temp=${CntrlValues.tctl.toString()} --stapm-limit=${CntrlValues.stapm.toString()} --fast-limit=${CntrlValues.fast.toString()} --slow-limit=${CntrlValues.slow.toString()}");
         },
         child: const Icon(Icons.start),
       ),
@@ -165,12 +152,12 @@ class ControllerInputBox extends StatefulWidget {
   ControllerInputBox(
       {super.key,
       required this.inputController,
-      required this.onChanged,
+      required this.id,
       required this.inputIcon,
       required this.labelText});
 
   final TextEditingController inputController;
-  final Function() onChanged;
+  final String id;
   final IconData inputIcon;
   final String labelText;
 
@@ -188,7 +175,20 @@ class _ControllerInputBoxState extends State<ControllerInputBox> {
         keyboardType: TextInputType.number,
         onChanged: (value) {
           setState(() {
-            widget.onChanged;
+            switch (widget.id) {
+              case 'tctl':
+                CntrlValues.tctl = int.parse(value);
+                break;
+              case 'stapm':
+                CntrlValues.stapm = int.parse(value);
+                break;
+              case 'fast':
+                CntrlValues.fast = int.parse(value);
+                break;
+              case 'slow':
+                CntrlValues.slow = int.parse(value);
+                break;
+            }
           });
         },
         decoration: InputDecoration(
@@ -199,4 +199,13 @@ class _ControllerInputBoxState extends State<ControllerInputBox> {
       ),
     );
   }
+}
+
+void setTctl() {}
+
+class CntrlValues {
+  static int tctl = 90;
+  static int stapm = 45000;
+  static int fast = 45000;
+  static int slow = 45000;
 }
