@@ -112,8 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           var shell = Shell();
-          await shell.run(
-              "ryzenadj --tctl-temp=${CntrlValues.tctl.toString()} --stapm-limit=${CntrlValues.stapm.toString()} --fast-limit=${CntrlValues.fast.toString()} --slow-limit=${CntrlValues.slow.toString()}");
+          var tooltipVal = "loading";
+          await shell
+              .run(
+                  "ryzenadj --tctl-temp=${CntrlValues.tctl.toString()} --stapm-limit=${CntrlValues.stapm.toString()} --fast-limit=${CntrlValues.fast.toString()} --slow-limit=${CntrlValues.slow.toString()}")
+              .then((value) => tooltipVal = value.outText);
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(tooltipVal)));
         },
         icon: const Icon(Icons.settings_suggest),
         label: const Text("Apply Settings"),
