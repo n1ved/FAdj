@@ -1,16 +1,16 @@
-# FAdj
+<h1 style="text-align : center"> FAdj </h1>
 
-A new Flutter project.
+A simple front-end for [ryzenAdj](https://github.com/FlyGoat/RyzenAdj) using Flutter
 
-## Getting Started
+> Warning This is an experimental software use it at your own risk
 
-This project is a starting point for a Flutter application.
+> Warning This program requires running as superuser
 
-A few resources to get you started if this is your first Flutter project:
+> Warning If any value is not provided it'll apply default values (TDP:45W Temp:40deg)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Prerequisites
+
+- [ryzenAdj](https://github.com/FlyGoat/RyzenAdj) Installed and added to system path
+- ```acpi``` to get cpu temperature
+- ```lscpu``` to get cpu model
