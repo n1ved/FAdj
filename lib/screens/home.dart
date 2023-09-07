@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:process_run/process_run.dart';
 import 'package:ryzenadj_fluttter/default_controll_values.dart';
+import 'package:ryzenadj_fluttter/utils/cpu_info.dart';
 import '../components/settings_input_box.dart';
 import '../components/status_text.dart';
 
@@ -19,21 +20,23 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _fastLimit = TextEditingController();
   final TextEditingController _slowLimit = TextEditingController();
 
-  var acpi_temp;
+  var acpiTemp = ". . . -1";
+  CpuInfo cpuInfo = CpuInfo();
   Timer? timer;
 
   void getAcpi() async {
     var shell = Shell(verbose: false);
-    await shell.run('acpi -t').then((value) => acpi_temp = value.outText);
+    await shell.run('acpi -t').then((value) => acpiTemp = value.outText);
     setState(() {});
     timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
-      await shell.run('acpi -t').then((value) => acpi_temp = value.outText);
+      await shell.run('acpi -t').then((value) => acpiTemp = value.outText);
       setState(() {});
     });
   }
 
   @override
   void initState() {
+    cpuInfo.loadInfo();
     getAcpi();
     super.initState();
   }
@@ -43,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Scaffold(
         appBar: AppBar(
-          title: const Text("FAdj"),
+          title: Text("FAdj | ${cpuInfo.getCpuName()}"),
           actions: [
             TextButton.icon(
               onPressed: () {
@@ -67,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const StatusText(headline: "Utilization", value: "WIP"),
                     StatusText(
                         headline: "Temperature",
-                        value: sortString(value: acpi_temp ?? ". . . -1")),
+                        value: sortString(value: acpiTemp)),
                   ],
                 ),
               ),
