@@ -2,11 +2,14 @@
 
 A simple front-end for [ryzenAdj](https://github.com/FlyGoat/RyzenAdj) using Flutter
 
-> **Warning** This is an experimental software, use it at your own risk
+> **Warning**
+>This is an experimental software, use it at your own risk
 
-> **Warning** This program requires running as superuser
+> **Warning** 
+>This program requires running as superuser
 
-> **Warning** If any value is not provided it'll apply default values (TDP:45W Temp:40deg)
+> **Warning** 
+>If any value is not provided it'll apply default values (TDP:45W Temp:40deg)
 
 
 ### Prerequisites
