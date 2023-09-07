@@ -1,4 +1,4 @@
-<h1 style="text-align : center"> FAdj </h1>
+<h1 align=center> FAdj </h1>
 
 A simple front-end for [ryzenAdj](https://github.com/FlyGoat/RyzenAdj) using Flutter
 
